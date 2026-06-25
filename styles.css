@@ -1,0 +1,967 @@
+/* ===== Базовые стили и CSS переменные ===== */
+:root {
+    --bg-primary: #f0f2f5;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --accent-color: #007bff;
+    --accent-hover: #0056b3;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+    --gradient-start: #667eea;
+    --gradient-end: #764ba2;
+    --transition-speed: 0.3s;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-card: #1e2a4a;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --border-color: #2a3a5a;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --accent-color: #4dabf7;
+    --accent-hover: #339af0;
+}
+
+/* ===== Сброс и общие стили ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background var(--transition-speed), color var(--transition-speed);
+    min-height: 100vh;
+}
+
+/* ===== Контейнер приложения ===== */
+.app-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== Шапка ===== */
+.header {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 20px 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    border: 1px solid var(--border-color);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.theme-toggle {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    transform: rotate(30deg) scale(1.1);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+/* ===== Основной контент ===== */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ===== Панель управления ===== */
+.controls-panel {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.controls-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Drop Zone */
+.drop-zone {
+    flex: 1;
+    min-width: 200px;
+    border: 2px dashed var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    background: var(--bg-primary);
+    position: relative;
+}
+
+.drop-zone:hover {
+    border-color: var(--accent-color);
+    background: var(--bg-secondary);
+}
+
+.drop-zone.drag-over {
+    border-color: var(--accent-color);
+    background: rgba(0, 123, 255, 0.1);
+    transform: scale(1.02);
+}
+
+.drop-zone.has-file {
+    border-color: var(--success-color) !important;
+    background: rgba(40, 167, 69, 0.05) !important;
+}
+
+.drop-zone-content {
+    pointer-events: none;
+}
+
+.drop-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.drop-hint {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Стили для отображения файла в Drop Zone */
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.file-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.file-details {
+    flex: 1;
+    text-align: left;
+    min-width: 0;
+}
+
+.file-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+.file-size, .file-type, .file-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.file-status {
+    color: var(--success-color);
+    font-weight: 500;
+}
+
+.file-status::before {
+    content: "●";
+    font-size: 0.6rem;
+}
+
+.file-remove {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.file-remove:hover {
+    background: var(--danger-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+.file-remove:active {
+    transform: scale(0.9);
+}
+
+/* Кнопки */
+.controls-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: var(--accent-color);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--accent-hover);
+}
+
+.btn-secondary {
+    background: var(--text-secondary);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #555;
+}
+
+.btn-danger {
+    background: var(--danger-color);
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: #c82333;
+}
+
+.btn-success {
+    background: var(--success-color);
+}
+
+.btn-success:hover:not(:disabled) {
+    background: #218838;
+}
+
+.btn-info {
+    background: var(--info-color);
+}
+
+.btn-info:hover:not(:disabled) {
+    background: #138496;
+}
+
+.btn-icon {
+    font-size: 1.1rem;
+}
+
+/* Информация */
+.info-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+    flex: 1;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Экспорт */
+.export-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* ===== Панель визуализации ===== */
+.visualization-panel {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    border: 1px solid var(--border-color);
+}
+
+.visualization-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all var(--transition-speed);
+}
+
+.tab-btn:hover {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    background: var(--accent-color);
+    color: white;
+}
+
+/* Контейнер визуализации */
+.visualization-container {
+    position: relative;
+    min-height: 350px;
+}
+
+.viz-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.viz-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.canvas-wrapper {
+    position: relative;
+    background: var(--bg-primary);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.viz-canvas {
+    width: 100%;
+    height: 300px;
+    display: block;
+    background: var(--bg-primary);
+}
+
+.canvas-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.05);
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.canvas-overlay.hidden {
+    opacity: 0;
+}
+
+.overlay-text {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+/* Управление визуализацией */
+.viz-controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.viz-controls input[type="range"] {
+    flex: 1;
+    min-width: 150px;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--border-color);
+    border-radius: 3px;
+    outline: none;
+    transition: background 0.3s;
+}
+
+.viz-controls input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.viz-controls input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.viz-controls label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+/* ===== Ноты и пианино ===== */
+.notes-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.notes-modal-content {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 700px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: scaleIn 0.3s ease;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.notes-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.notes-modal-header h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.notes-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.notes-modal-close:hover {
+    background: var(--danger-color);
+    color: white;
+}
+
+/* Список нот */
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.note-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    transition: all 0.2s;
+}
+
+.note-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.note-item.primary-note {
+    border-left-color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.note-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    min-width: 60px;
+}
+
+.note-details {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.note-frequency {
+    font-family: 'Courier New', monospace;
+    font-weight: 500;
+}
+
+.note-cents {
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: var(--bg-secondary);
+}
+
+.note-occurrences {
+    opacity: 0.7;
+}
+
+.note-badge {
+    background: #ffd700;
+    color: #333;
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.notes-info {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.notes-info p {
+    margin: 5px 0;
+}
+
+/* Пианино */
+.piano-container {
+    overflow-x: auto;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.piano-keyboard {
+    display: flex;
+    position: relative;
+    height: 200px;
+    min-width: 600px;
+}
+
+.piano-key {
+    position: relative;
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding-bottom: 10px;
+    user-select: none;
+}
+
+.piano-key.white {
+    width: 40px;
+    height: 100%;
+    background: white;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 0 0 4px 4px;
+    z-index: 1;
+}
+
+.piano-key.white:hover {
+    background: #f0f0f0;
+}
+
+.piano-key.white.active {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+    border-color: var(--accent-color);
+}
+
+.piano-key.black {
+    width: 24px;
+    height: 60%;
+    background: #333;
+    color: white;
+    border-radius: 0 0 4px 4px;
+    margin-left: -12px;
+    margin-right: -12px;
+    z-index: 2;
+    font-size: 0.5rem;
+    padding-bottom: 5px;
+}
+
+.piano-key.black:hover {
+    background: #555;
+}
+
+.piano-key.black.active {
+    background: #ffd700;
+    color: #333;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    border-color: #ffd700;
+}
+
+.piano-key .note-label {
+    font-size: 0.6rem;
+    opacity: 0.7;
+}
+
+/* Уведомления */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 10000;
+    animation: slideInRight 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    max-width: 400px;
+}
+
+.notification.info {
+    background: var(--info-color);
+}
+
+.notification.warning {
+    background: #ffc107;
+    color: #333;
+}
+
+.notification.success {
+    background: var(--success-color);
+}
+
+.notification.error {
+    background: var(--danger-color);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* ===== Адаптивность ===== */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 10px;
+    }
+
+    .header {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 1.2rem;
+    }
+
+    .controls-panel {
+        padding: 15px;
+    }
+
+    .controls-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .controls-buttons {
+        justify-content: center;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+
+    .info-display {
+        justify-content: center;
+    }
+
+    .info-item {
+        align-items: center;
+        min-width: 80px;
+    }
+
+    .export-controls {
+        justify-content: center;
+    }
+
+    .visualization-panel {
+        padding: 15px;
+    }
+
+    .viz-canvas {
+        height: 200px;
+    }
+
+    .tab-btn {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+
+    .file-info {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .file-details {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .file-meta {
+        justify-content: center;
+    }
+    
+    .file-remove {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+    
+    .file-info {
+        position: relative;
+    }
+
+    .piano-key.white {
+        width: 30px;
+    }
+    .piano-key.black {
+        width: 18px;
+        margin-left: -9px;
+        margin-right: -9px;
+    }
+    .piano-keyboard {
+        min-width: 400px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1rem;
+    }
+
+    .viz-canvas {
+        height: 150px;
+    }
+
+    .drop-zone {
+        padding: 15px;
+    }
+
+    .drop-icon {
+        font-size: 2rem;
+    }
+
+    .piano-key.white {
+        width: 22px;
+        font-size: 0.5rem;
+    }
+    .piano-key.black {
+        width: 14px;
+        margin-left: -7px;
+        margin-right: -7px;
+    }
+    .piano-keyboard {
+        min-width: 300px;
+        height: 120px;
+    }
+
+    .notes-modal-content {
+        padding: 20px;
+    }
+}
+
+/* ===== Скроллбар ===== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}

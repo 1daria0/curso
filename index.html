@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Профессиональный анализатор аудиосигналов</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🎵 Профессиональный анализатор аудиосигналов</h1>
+                <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
+                    🌙
+                </button>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Панель управления -->
+            <section class="controls-panel">
+                <div class="controls-group">
+                    <div class="drop-zone" id="dropZone">
+                        <div class="drop-zone-content">
+                            <span class="drop-icon">📁</span>
+                            <p>Перетащите аудиофайл сюда</p>
+                            <span class="drop-hint">или нажмите для выбора</span>
+                        </div>
+                        <input type="file" id="audioFile" accept="audio/*" hidden>
+                    </div>
+                    
+                    <div class="controls-buttons">
+                        <button id="playBtn" class="btn btn-primary" disabled>
+                            <span class="btn-icon">▶</span> Воспроизвести
+                        </button>
+                        <button id="pauseBtn" class="btn btn-secondary" disabled>
+                            <span class="btn-icon">⏸</span> Пауза
+                        </button>
+                        <button id="stopBtn" class="btn btn-danger" disabled>
+                            <span class="btn-icon">⏹</span> Остановить
+                        </button>
+                    </div>
+                </div>
+
+                <div class="controls-group">
+                    <button id="detectNotesBtn" class="btn btn-primary" disabled>
+                        <span class="btn-icon">🎵</span> Определить ноты
+                    </button>
+                    <button id="showPianoBtn" class="btn btn-info" disabled>
+                        <span class="btn-icon">🎹</span> Показать клавиатуру
+                    </button>
+                </div>
+
+                <div class="controls-group">
+                    <div class="info-display">
+                        <div class="info-item">
+                            <span class="info-label">Длительность:</span>
+                            <span class="info-value" id="duration">--:--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Частота:</span>
+                            <span class="info-value" id="sampleRate">-- кГц</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Каналы:</span>
+                            <span class="info-value" id="channels">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Битрейт:</span>
+                            <span class="info-value" id="bitrate">-- kbps</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-group">
+                    <div class="export-controls">
+                        <button id="exportScreenshot" class="btn btn-success" disabled>
+                            <span class="btn-icon">📸</span> Экспорт скриншота
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Визуализация -->
+            <section class="visualization-panel">
+                <div class="visualization-tabs">
+                    <button class="tab-btn active" data-tab="waveform">Осциллограмма</button>
+                    <button class="tab-btn" data-tab="spectrum">Спектр</button>
+                    <button class="tab-btn" data-tab="spectrogram">Спектрограмма</button>
+                </div>
+
+                <div class="visualization-container">
+                    <!-- Осциллограмма -->
+                    <div class="viz-content active" id="waveform">
+                        <div class="canvas-wrapper">
+                            <canvas id="waveCanvas" class="viz-canvas"></canvas>
+                            <div class="canvas-overlay" id="waveOverlay">
+                                <span class="overlay-text">Загрузите аудиофайл</span>
+                            </div>
+                        </div>
+                        <div class="viz-controls">
+                            <input type="range" id="waveZoom" min="1" max="10" value="1" step="0.1">
+                            <label for="waveZoom">Масштаб: <span id="zoomValue">1x</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Спектр -->
+                    <div class="viz-content" id="spectrum">
+                        <div class="canvas-wrapper">
+                            <canvas id="spectrumCanvas" class="viz-canvas"></canvas>
+                            <div class="canvas-overlay" id="spectrumOverlay">
+                                <span class="overlay-text">Загрузите аудиофайл</span>
+                            </div>
+                        </div>
+                        <div class="viz-controls">
+                            <input type="range" id="spectrumBands" min="16" max="64" value="32" step="1">
+                            <label for="spectrumBands">Разрешение: <span id="bandsValue">32</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Спектрограмма -->
+                    <div class="viz-content" id="spectrogram">
+                        <div class="canvas-wrapper">
+                            <canvas id="spectrogramCanvas" class="viz-canvas"></canvas>
+                            <div class="canvas-overlay" id="spectrogramOverlay">
+                                <span class="overlay-text">Загрузите аудиофайл</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Футер -->
+        <footer class="footer">
+            <p>Анализатор аудиосигналов v2.0 | Работает на Web Audio API</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
