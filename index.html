@@ -18,9 +18,7 @@
             </div>
         </header>
 
-        <!-- Основной контент -->
         <main class="main-content">
-            <!-- Панель управления -->
             <section class="controls-panel">
                 <div class="controls-group">
                     <div class="drop-zone" id="dropZone">
@@ -84,7 +82,6 @@
                 </div>
             </section>
 
-            <!-- Визуализация -->
             <section class="visualization-panel">
                 <div class="visualization-tabs">
                     <button class="tab-btn active" data-tab="waveform">Осциллограмма</button>
@@ -93,7 +90,6 @@
                 </div>
 
                 <div class="visualization-container">
-                    <!-- Осциллограмма -->
                     <div class="viz-content active" id="waveform">
                         <div class="canvas-wrapper">
                             <canvas id="waveCanvas" class="viz-canvas"></canvas>
@@ -107,7 +103,6 @@
                         </div>
                     </div>
 
-                    <!-- Спектр -->
                     <div class="viz-content" id="spectrum">
                         <div class="canvas-wrapper">
                             <canvas id="spectrumCanvas" class="viz-canvas"></canvas>
@@ -121,7 +116,6 @@
                         </div>
                     </div>
 
-                    <!-- Спектрограмма -->
                     <div class="viz-content" id="spectrogram">
                         <div class="canvas-wrapper">
                             <canvas id="spectrogramCanvas" class="viz-canvas"></canvas>
@@ -134,7 +128,6 @@
             </section>
         </main>
 
-        <!-- Футер -->
         <footer class="footer">
             <p>Анализатор аудиосигналов v2.0 | Работает на Web Audio API</p>
         </footer>

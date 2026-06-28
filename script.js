@@ -1,6 +1,4 @@
-// ============================================
-// Глобальные переменные
-// ============================================
+
 let audioContext = null;
 let audioBuffer = null;
 let source = null;
@@ -11,7 +9,7 @@ let animationId = null;
 let spectrogramData = [];
 let currentTheme = 'light';
 
-// DOM элементы
+
 const fileInput = document.getElementById('audioFile');
 const dropZone = document.getElementById('dropZone');
 const playBtn = document.getElementById('playBtn');
@@ -33,9 +31,7 @@ const ctxWave = waveCanvas.getContext('2d');
 const ctxSpectrum = spectrumCanvas.getContext('2d');
 const ctxSpectrogram = spectrogramCanvas.getContext('2d');
 
-// ============================================
-// Класс для распознавания нот
-// ============================================
+
 class NoteDetector {
     constructor() {
         this.noteFrequencies = {
@@ -169,9 +165,7 @@ class NoteDetector {
     }
 }
 
-// ============================================
-// Инициализация
-// ============================================
+
 function init() {
     setupEventListeners();
     setupTabs();
@@ -181,9 +175,7 @@ function init() {
     window.addEventListener('resize', updateCanvasSizes);
 }
 
-// ============================================
-// Настройка слушателей событий
-// ============================================
+
 function setupEventListeners() {
     fileInput.addEventListener('change', handleFileLoad);
     playBtn.addEventListener('click', playAudio);
@@ -197,9 +189,7 @@ function setupEventListeners() {
     showPianoBtn.addEventListener('click', showPianoKeyboard);
 }
 
-// ============================================
-// Обновление состояния кнопок
-// ============================================
+
 function updateButtonsState(enabled) {
     const buttons = [playBtn, pauseBtn, stopBtn, exportScreenshot, detectNotesBtn, showPianoBtn];
     
@@ -208,9 +198,7 @@ function updateButtonsState(enabled) {
     });
 }
 
-// ============================================
-// Обновление отображения файла в Drop Zone
-// ============================================
+
 function updateDropZoneFile(file) {
     const dropZoneContent = dropZone.querySelector('.drop-zone-content');
     
@@ -260,9 +248,7 @@ function updateDropZoneFile(file) {
     }
 }
 
-// ============================================
-// Удаление файла
-// ============================================
+
 function removeFile() {
     stopAudio();
     audioBuffer = null;
@@ -290,9 +276,7 @@ function removeFile() {
     fileInput.value = '';
 }
 
-// ============================================
-// Обработка загрузки файлов
-// ============================================
+
 async function handleFileLoad(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -330,9 +314,7 @@ async function loadAudioFile(file) {
     }
 }
 
-// ============================================
-// AudioContext
-// ============================================
+
 function initAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -342,9 +324,7 @@ function initAudioContext() {
     }
 }
 
-// ============================================
-// Воспроизведение
-// ============================================
+
 function playAudio() {
     if (!audioBuffer) return;
     if (isPlaying && !isPaused) return;
@@ -379,9 +359,7 @@ function playAudio() {
     };
 }
 
-// ============================================
-// Пауза
-// ============================================
+
 function pauseAudio() {
     if (!isPlaying || isPaused) return;
     
@@ -396,9 +374,7 @@ function pauseAudio() {
     }
 }
 
-// ============================================
-// Остановка
-// ============================================
+
 function stopAudio() {
     if (source) {
         try {
@@ -418,9 +394,7 @@ function stopAudio() {
     clearSpectrogram();
 }
 
-// ============================================
-// Очистка спектра
-// ============================================
+
 function clearSpectrum() {
     const canvas = spectrumCanvas;
     const ctx = canvas.getContext('2d');
@@ -429,9 +403,7 @@ function clearSpectrum() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-// ============================================
-// Обновление кнопок
-// ============================================
+
 function updatePlayButtons() {
     if (isPlaying && !isPaused) {
         playBtn.innerHTML = '<span class="btn-icon">▶</span> Играет';
@@ -445,9 +417,7 @@ function updatePlayButtons() {
     }
 }
 
-// ============================================
-// Визуализация
-// ============================================
+
 function startVisualization() {
     if (!analyser) return;
     
@@ -474,9 +444,7 @@ function startVisualization() {
     update();
 }
 
-// ============================================
-// Отрисовка осциллограммы
-// ============================================
+
 function drawWaveform() {
     if (!audioBuffer) return;
     
@@ -524,9 +492,7 @@ function drawWaveform() {
     ctxWave.stroke();
 }
 
-// ============================================
-// Отрисовка спектра
-// ============================================
+
 function drawSpectrum(dataArray, freqBinCount, sampleRate) {
     const canvas = spectrumCanvas;
     const width = canvas.width;
@@ -577,9 +543,7 @@ function drawSpectrum(dataArray, freqBinCount, sampleRate) {
     }
 }
 
-// ============================================
-// Спектрограмма
-// ============================================
+
 function clearSpectrogram() {
     const canvas = spectrogramCanvas;
     ctxSpectrogram.clearRect(0, 0, canvas.width, canvas.height);
@@ -617,9 +581,7 @@ function updateSpectrogram(dataArray) {
     }
 }
 
-// ============================================
-// Функции для распознавания нот
-// ============================================
+
 function detectAndDisplayNotes() {
     if (!audioBuffer) {
         showNotification('Сначала загрузите аудиофайл!', 'warning');
@@ -753,9 +715,7 @@ function showPianoKeyboard() {
     });
 }
 
-// ============================================
-// Уведомления
-// ============================================
+
 function showNotification(message, type = 'info') {
     const existing = document.querySelector('.notification');
     if (existing) existing.remove();
@@ -771,9 +731,7 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// ============================================
-// Информация об аудио
-// ============================================
+
 function updateAudioInfo(file) {
     if (!audioBuffer) return;
     
@@ -796,9 +754,7 @@ function updateAudioInfo(file) {
     }
 }
 
-// ============================================
-// Экспорт скриншота
-// ============================================
+
 function exportScreenshotHandler() {
     const activeTab = document.querySelector('.viz-content.active');
     if (!activeTab) {
@@ -823,9 +779,7 @@ function exportScreenshotHandler() {
     }
 }
 
-// ============================================
-// Вкладки
-// ============================================
+
 function setupTabs() {
     const tabs = document.querySelectorAll('.tab-btn');
     const contents = {
@@ -856,9 +810,7 @@ function setupTabs() {
     });
 }
 
-// ============================================
-// Drop Zone
-// ============================================
+
 function setupDropZone() {
     dropZone.addEventListener('click', () => fileInput.click());
     
@@ -882,9 +834,7 @@ function setupDropZone() {
     });
 }
 
-// ============================================
-// Тема
-// ============================================
+
 function setupTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     setTheme(savedTheme);
@@ -913,9 +863,7 @@ function setTheme(theme) {
     }, 100);
 }
 
-// ============================================
-// Управление размерами Canvas
-// ============================================
+
 function updateCanvasSizes() {
     const canvases = [waveCanvas, spectrumCanvas, spectrogramCanvas];
     const container = document.querySelector('.canvas-wrapper');
@@ -944,9 +892,7 @@ function updateCanvasSizes() {
     }, 50);
 }
 
-// ============================================
-// Обработчики управления
-// ============================================
+
 function handleZoom() {
     zoomValue.textContent = `${waveZoom.value}x`;
     if (audioBuffer) drawWaveform();
@@ -961,9 +907,7 @@ function handleBands() {
     }
 }
 
-// ============================================
-// Запуск
-// ============================================
+
 document.addEventListener('DOMContentLoaded', init);
 
 window.addEventListener('error', (e) => {
